@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galing Family Tree</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="hero">
+  <nav class="topbar">
+    <div class="brand">Galing Family Archive</div>
+    <a href="#directory">Directory</a>
+  </nav>
+  <div class="hero-content">
+    <p class="eyebrow">Interactive family archive</p>
+    <h1>Galing Family Tree</h1>
+    <p class="subtitle">Descendants of Severo Gumotab Galing and Lolita Siblawan Basilan</p>
+    <div class="hero-actions">
+      <a class="button primary" href="#branches">View branches</a>
+      <a class="button ghost" href="#directory">Search names</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="stats" id="stats"></section>
+  <section class="root-card" id="rootCard"></section>
+
+  <section id="branches" class="section-heading">
+    <p class="eyebrow dark">Family branches</p>
+    <h2>Explore by branch</h2>
+    <p class="hint">Each branch starts from one child of the root couple.</p>
+  </section>
+
+  <div id="branchCards" class="grid"></div>
+
+  <section id="directory" class="directory-card">
+    <div class="section-heading compact">
+      <p class="eyebrow dark">Directory</p>
+      <h2>Find a family member</h2>
+      <p class="hint">Search by name or filter by branch. Click a card to open a profile.</p>
+    </div>
+
+    <div class="controls">
+      <div class="searchbox">
+        <span>⌕</span>
+        <input id="search" type="search" placeholder="Search a name..." />
+      </div>
+      <select id="branchFilter">
+        <option value="">All branches</option>
+      </select>
+    </div>
+
+    <div id="peopleList" class="people-list"></div>
+  </section>
+</main>
+
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <button id="closeModal" class="close" aria-label="Close profile">×</button>
+    <div id="profile"></div>
+  </div>
+</div>
+
+<footer>
+  <strong>Editing note:</strong> update <code>data.js</code> to add names, spouses, parents, and notes.
+</footer>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
