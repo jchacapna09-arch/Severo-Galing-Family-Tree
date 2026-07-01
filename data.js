@@ -832,7 +832,7 @@ const FAMILY_DATA = {
     },
     {
       "id": "P070",
-      "name": "Aira Mae Loy-ong",
+      "name": "Airah Mae Loy-ong",
       "branch": "Florda branch",
       "gender": "F",
       "spouse": "S070",
@@ -1052,7 +1052,7 @@ const FAMILY_DATA = {
       "order": 5,
       "title": "Florda branch",
       "couple": "Florda Galing + Gabino Loy-ong",
-      "notes": "Brent, Joey, El Jeremiah, Aira Mae"
+      "notes": "Brent, Joey, El Jeremiah, Airah Mae"
     },
     {
       "order": 6,
