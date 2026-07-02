@@ -191,7 +191,7 @@ const FAMILY_DATA = {
     },
     {
       "id": "P014",
-      "name": "Lailanie Galing",
+      "name": "Lylanie Galing",
       "branch": "Rudy branch",
       "gender": "F",
       "spouse": "S014",
@@ -220,7 +220,7 @@ const FAMILY_DATA = {
     },
     {
       "id": "P016",
-      "name": "Rudilyn Galing",
+      "name": "Rudylyn Galing",
       "branch": "Rudy branch",
       "gender": "F",
       "spouse": "S016",
@@ -228,18 +228,18 @@ const FAMILY_DATA = {
         "P003",
         "S003"
       ],
-      "notes": "Spouse: Bard"
+      "notes": "Spouse: Bård Solstad"
     },
     {
       "id": "S016",
-      "name": "Bard",
+      "name": "Bård Solstad",
       "branch": "Rudy branch",
       "gender": "M",
       "spouse": "P016"
     },
     {
       "id": "P017",
-      "name": "Eliza",
+      "name": "Elise Leah",
       "branch": "Rudy branch",
       "gender": "F",
       "parents": [
@@ -249,7 +249,7 @@ const FAMILY_DATA = {
     },
     {
       "id": "P018",
-      "name": "Meadow",
+      "name": "Meadow Amalie",
       "branch": "Rudy branch",
       "gender": "F",
       "parents": [
@@ -1028,7 +1028,7 @@ const FAMILY_DATA = {
       "order": 1,
       "title": "Rudy branch",
       "couple": "Rudy Galing + Nicia Lucas",
-      "notes": "Lailanie, Rudilyn, Chris, Denver, Precious Hansel"
+      "notes": "Lylanie, Rudylyn, Chris, Denver, Precious Hansel"
     },
     {
       "order": 2,
