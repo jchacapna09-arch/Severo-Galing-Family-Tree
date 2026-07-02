@@ -365,18 +365,18 @@ const FAMILY_DATA = {
         "S004"
       ]
     },
-    {
-      "id": "P035",
-      "name": "Jeff Salwagan",
-      "branch": "Lazaro branch",
-      "gender": "M",
-      "spouse": "S035",
-      "parents": [
-        "P005",
-        "S005"
-      ],
-      "notes": "Spouse: Melody Dogwe"
-    },
+ {
+  "id": "P035",
+  "name": "Jeff Salwagan",
+  "branch": "Lazaro branch",
+  "gender": "M",
+  "spouse": "S035",
+  "parents": [
+    "P005",
+    "S005"
+  ],
+  "notes": "Current spouse: Melody Dogwe. Previous partner: Janet Ambas, mother of Kurt Salwagan."
+},
     {
       "id": "S035",
       "name": "Melody Dogwe",
@@ -394,25 +394,24 @@ const FAMILY_DATA = {
         "S035"
       ]
     },
-    {
-      "id": "P037",
-      "name": "Kurt Salwagan",
-      "branch": "Lazaro branch",
-      "gender": "M",
-      "spouse": "S037",
-      "parents": [
-        "P035",
-        "S035"
-      ],
-      "notes": "Spouse: Janet Ambas"
-    },
-    {
-      "id": "S037",
-      "name": "Janet Ambas",
-      "branch": "Lazaro branch",
-      "gender": "F",
-      "spouse": "P037"
-    },
+   {
+  "id": "P037",
+  "name": "Kurt Salwagan",
+  "branch": "Lazaro branch",
+  "gender": "M",
+  "parents": [
+    "P035",
+    "S037"
+  ],
+  "notes": "Mother: Janet Ambas"
+},
+ {
+  "id": "S037",
+  "name": "Janet Ambas",
+  "branch": "Lazaro branch",
+  "gender": "F",
+  "notes": "Previous partner of Jeff Salwagan; mother of Kurt Salwagan"
+},
     {
       "id": "P038",
       "name": "Floriza Galing",
