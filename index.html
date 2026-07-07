@@ -12,12 +12,13 @@
     <div class="brand">Galing Family Archive</div>
     <a href="#directory">Directory</a>
   </nav>
+
   <div class="hero-content">
     <p class="eyebrow">Interactive family archive</p>
     <h1>Galing Family Tree</h1>
     <p class="subtitle">Descendants of Severo Gumotab Galing and Lolita Siblawan Basilan</p>
     <div class="hero-actions">
-      <a class="button primary" href="#branches">View branches</a>
+      <a class="button primary" href="#tree">View tree</a>
       <a class="button ghost" href="#directory">Search names</a>
     </div>
   </div>
@@ -25,14 +26,20 @@
 
 <main>
   <section class="stats" id="stats"></section>
+
   <section class="root-card" id="rootCard"></section>
+
+  <section id="tree" class="section-heading">
+    <p class="eyebrow dark">Family tree</p>
+    <h2>Relationship-based tree</h2>
+    <p class="hint">Partners and children are grouped by relationship, so previous partners and multiple partners can be shown correctly.</p>
+  </section>
+  <section id="treeView" class="tree-card"></section>
 
   <section id="branches" class="section-heading">
     <p class="eyebrow dark">Family branches</p>
     <h2>Explore by branch</h2>
-    <p class="hint">Each branch starts from one child of the root couple.</p>
   </section>
-
   <div id="branchCards" class="grid"></div>
 
   <section id="directory" class="directory-card">
@@ -64,7 +71,7 @@
 </div>
 
 <footer>
-  <strong>Editing note:</strong> update <code>data.js</code> to add names, spouses, parents, and notes.
+  <strong>Editing note:</strong> update <code>data.js</code>. Add people in <code>people</code>, and partnerships in <code>relationships</code>.
 </footer>
 
 <script src="data.js"></script>

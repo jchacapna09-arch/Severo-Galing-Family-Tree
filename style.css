@@ -113,7 +113,7 @@ main {
   gap: 14px;
   margin-bottom: 18px;
 }
-.stat, .root-card, .branch-card, .person, .directory-card {
+.stat, .root-card, .branch-card, .person, .directory-card, .tree-card {
   background: var(--card);
   border: 1px solid var(--line);
   box-shadow: 0 12px 30px rgba(69, 42, 22, .08);
@@ -160,7 +160,7 @@ main {
 .section-heading {
   text-align: center;
   margin: 38px auto 20px;
-  max-width: 720px;
+  max-width: 760px;
 }
 .section-heading.compact { margin-top: 0; }
 .hint, .meta {
@@ -206,10 +206,39 @@ main {
   font-weight: 800;
   margin-bottom: 12px;
 }
-.directory-card {
+.directory-card, .tree-card {
   margin: 42px 0;
   padding: 24px;
   border-radius: 24px;
+}
+.tree {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 14px 2px 8px;
+}
+.tree-branch {
+  min-width: 280px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #fffaf3;
+  padding: 16px;
+}
+.tree-person, .tree-partner {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: white;
+  border: 1px solid var(--line);
+  margin: 8px 0;
+  cursor: pointer;
+}
+.tree-relationship {
+  margin: 10px 0 14px 16px;
+  border-left: 3px solid var(--accent2);
+  padding-left: 12px;
+}
+.tree-children {
+  margin-left: 14px;
 }
 .controls {
   display: flex;
@@ -283,7 +312,7 @@ select {
 }
 .hidden { display: none; }
 .modal-card {
-  width: min(680px, 100%);
+  width: min(720px, 100%);
   background: #fffdf8;
   border-radius: 28px;
   padding: 26px;
@@ -313,6 +342,13 @@ select {
   margin-top: 14px;
 }
 .profile-section strong { color: var(--accent-dark); }
+.relationship-box {
+  background: #fff8ef;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 12px;
+  margin: 10px 0;
+}
 ul { padding-left: 20px; }
 li { margin: 5px 0; }
 code {
@@ -329,6 +365,6 @@ footer {
   .topbar { padding: 18px; }
   .stats { grid-template-columns: 1fr; }
   main { width: min(100% - 20px, 1120px); }
-  .directory-card, .root-card { padding: 20px; border-radius: 22px; }
+  .directory-card, .root-card, .tree-card { padding: 20px; border-radius: 22px; }
   select { flex-basis: 100%; }
 }

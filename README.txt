@@ -1,4 +1,4 @@
-Galing Family Tree Website - Regenerated Version
+Galing Family Tree Website - Version 3
 
 Open:
 - index.html
@@ -6,16 +6,21 @@ Open:
 Edit:
 - data.js
 
-This version was regenerated from the latest corrected family list.
-Corrections included:
-- Lolita Siblawan Basilan
-- Xianel Teclaen
-- Si Yeriel Joseph
-- Rustum Galing
-- Eric Lee Galing
+What is new:
+- People and relationships are separated.
+- Multiple partners are supported.
+- Children can be grouped under the correct relationship.
+- Jeff Salwagan now has Janet Ambas as previous partner and Melody Dogwe as current spouse.
+- Hogan Gym Galing now has separate partner groups for Gina Gallad and Promelyn Joseph.
+
+Upload these files to GitHub:
+- index.html
+- style.css
+- script.js
+- data.js
+- README.txt
 
 Editing reminder:
-- Each person must have a unique ID.
-- Use spouse: "ID" to connect spouses.
-- Use parents: ["ID1", "ID2"] to connect children.
-- Avoid adding sensitive information for living relatives unless they agree.
+1. Add names under people.
+2. Add partnerships under relationships.
+3. Put children inside the correct relationship.

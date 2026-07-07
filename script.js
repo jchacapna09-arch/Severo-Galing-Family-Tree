@@ -1,5 +1,6 @@
 
 const people = FAMILY_DATA.people;
+const relationships = FAMILY_DATA.relationships || [];
 const branches = FAMILY_DATA.branches;
 const byId = Object.fromEntries(people.map(p => [p.id, p]));
 
@@ -7,16 +8,30 @@ function nameOf(id) {
   return byId[id]?.name || id;
 }
 
-function coupleChildren(person) {
-  const spouseId = person.spouse;
-  const seen = new Set();
-  return people.filter(p => {
-    const parents = p.parents || [];
-    const match = parents.includes(person.id) || (spouseId && parents.includes(spouseId));
-    if (!match || seen.has(p.id) || p.id === person.id) return false;
-    seen.add(p.id);
-    return true;
-  });
+function relationshipsOf(personId) {
+  return relationships.filter(r => r.partner1 === personId || r.partner2 === personId);
+}
+
+function partnerInRelationship(rel, personId) {
+  return rel.partner1 === personId ? rel.partner2 : rel.partner1;
+}
+
+function childrenOf(personId) {
+  const fromRelationships = relationshipsOf(personId).flatMap(r => r.children || []);
+  const fromParents = people
+    .filter(p => (p.parents || []).includes(personId))
+    .map(p => p.id);
+  return [...new Set([...fromRelationships, ...fromParents])].map(id => byId[id]).filter(Boolean);
+}
+
+function parentsOf(person) {
+  return (person.parents || []).map(id => byId[id]).filter(Boolean);
+}
+
+function siblingsOf(person) {
+  const parents = person.parents || [];
+  if (parents.length === 0) return [];
+  return people.filter(p => p.id !== person.id && parents.some(pid => (p.parents || []).includes(pid)));
 }
 
 function branchOptions() {
@@ -42,8 +57,8 @@ function renderStats() {
       <div class="stat-label">family branches</div>
     </div>
     <div class="stat">
-      <div class="stat-number">${rootChildren}</div>
-      <div class="stat-label">children of the root couple listed</div>
+      <div class="stat-number">${relationships.length}</div>
+      <div class="stat-label">relationships recorded</div>
     </div>
   `;
 }
@@ -55,6 +70,58 @@ function renderRoot() {
     <div class="root-couple">${root.couple}</div>
     <p class="meta">${root.notes}</p>
   `;
+}
+
+function renderTree() {
+  const container = document.getElementById("treeView");
+  const rootChildren = people.filter(p => (p.parents || []).includes("P001") && (p.parents || []).includes("P002"));
+  container.innerHTML = `<div class="tree"></div>`;
+  const tree = container.querySelector(".tree");
+
+  rootChildren.forEach(rootChild => {
+    const branch = document.createElement("article");
+    branch.className = "tree-branch";
+    branch.innerHTML = `
+      <div class="badge">${rootChild.branch || "Branch"}</div>
+      <div class="tree-person" data-id="${rootChild.id}"><strong>${rootChild.name}</strong></div>
+      <div class="tree-relationships"></div>
+    `;
+    const relationshipsBox = branch.querySelector(".tree-relationships");
+
+    const rels = relationshipsOf(rootChild.id);
+    if (rels.length === 0) {
+      const childList = childrenOf(rootChild.id);
+      if (childList.length) {
+        relationshipsBox.innerHTML = `<div class="tree-relationship"><p class="meta">Children</p></div>`;
+        const relDiv = relationshipsBox.querySelector(".tree-relationship");
+        childList.forEach(child => {
+          relDiv.insertAdjacentHTML("beforeend", `<div class="tree-children tree-person" data-id="${child.id}">${child.name}</div>`);
+        });
+      }
+    } else {
+      rels.forEach(rel => {
+        const partnerId = partnerInRelationship(rel, rootChild.id);
+        const partner = byId[partnerId];
+        const relDiv = document.createElement("div");
+        relDiv.className = "tree-relationship";
+        relDiv.innerHTML = `
+          <p class="meta">${rel.status}</p>
+          <div class="tree-partner" data-id="${partnerId}">${partner ? partner.name : partnerId}</div>
+          <div class="tree-children"></div>
+        `;
+        const childrenDiv = relDiv.querySelector(".tree-children");
+        (rel.children || []).forEach(childId => {
+          childrenDiv.insertAdjacentHTML("beforeend", `<div class="tree-person" data-id="${childId}">${nameOf(childId)}</div>`);
+        });
+        relationshipsBox.appendChild(relDiv);
+      });
+    }
+    tree.appendChild(branch);
+  });
+
+  container.querySelectorAll("[data-id]").forEach(el => {
+    el.addEventListener("click", () => openProfile(el.dataset.id));
+  });
 }
 
 function renderBranches() {
@@ -91,13 +158,16 @@ function renderPeople() {
   }
 
   filtered.forEach(p => {
-    const childCount = coupleChildren(p).length;
+    const rels = relationshipsOf(p.id);
+    const children = childrenOf(p.id);
+    const relText = rels.map(r => `${r.status}: ${nameOf(partnerInRelationship(r, p.id))}`).join(" · ");
+
     const div = document.createElement("div");
     div.className = "person";
     div.innerHTML = `
       <div class="person-name">${p.name}</div>
-      <div class="meta">${p.branch || "No branch"}${p.spouse ? " · spouse: " + nameOf(p.spouse) : ""}</div>
-      <div class="meta">${childCount ? childCount + " child/children listed" : "No children listed yet"}</div>
+      <div class="meta">${p.branch || "No branch"}${relText ? " · " + relText : ""}</div>
+      <div class="meta">${children.length ? children.length + " child/children listed" : "No children listed yet"}</div>
     `;
     div.addEventListener("click", () => openProfile(p.id));
     list.appendChild(div);
@@ -106,22 +176,40 @@ function renderPeople() {
 
 function listItems(items) {
   if (!items || items.length === 0) return "<p class='meta'>None listed yet.</p>";
-  return "<ul>" + items.map(x => `<li>${x}</li>`).join("") + "</ul>";
+  return "<ul>" + items.map(x => `<li>${typeof x === "string" ? x : x.name}</li>`).join("") + "</ul>";
+}
+
+function relationshipHtml(personId) {
+  const rels = relationshipsOf(personId);
+  if (rels.length === 0) return "<p class='meta'>None listed yet.</p>";
+
+  return rels.map(rel => {
+    const partnerId = partnerInRelationship(rel, personId);
+    const children = (rel.children || []).map(id => byId[id]).filter(Boolean);
+    return `
+      <div class="relationship-box">
+        <p><strong>${rel.status}:</strong> ${nameOf(partnerId)}</p>
+        ${rel.notes ? `<p class="meta">${rel.notes}</p>` : ""}
+        <p class="meta">Children from this relationship:</p>
+        ${listItems(children)}
+      </div>
+    `;
+  }).join("");
 }
 
 function openProfile(id) {
   const p = byId[id];
-  const spouse = p.spouse ? nameOf(p.spouse) : "";
-  const parents = (p.parents || []).map(nameOf);
-  const children = coupleChildren(p).map(c => c.name);
+  const parents = parentsOf(p);
+  const siblings = siblingsOf(p);
+  const children = childrenOf(id);
 
   document.getElementById("profile").innerHTML = `
     <h2 class="profile-title">${p.name}</h2>
     <p class="meta">${p.branch || "No branch"}${p.gender ? " · " + p.gender : ""}</p>
 
     <div class="profile-section">
-      <strong>Spouse</strong>
-      ${spouse ? `<p>${spouse}</p>` : "<p class='meta'>None listed yet.</p>"}
+      <strong>Relationships</strong>
+      ${relationshipHtml(id)}
     </div>
 
     <div class="profile-section">
@@ -132,6 +220,11 @@ function openProfile(id) {
     <div class="profile-section">
       <strong>Children</strong>
       ${listItems(children)}
+    </div>
+
+    <div class="profile-section">
+      <strong>Siblings</strong>
+      ${listItems(siblings)}
     </div>
 
     <div class="profile-section">
@@ -160,5 +253,6 @@ document.getElementById("branchFilter").addEventListener("change", renderPeople)
 branchOptions();
 renderStats();
 renderRoot();
+renderTree();
 renderBranches();
 renderPeople();
